@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NER Web App</title>
+</head>
+<body>
+    <h1>Named Entity Recognition</h1>
+    <form method="POST" action="/extract_entities">
+        <label for="user_input">Enter Text:</label>
+        <textarea id="user_input" name="user_input" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">Extract Entities</button>
+    </form>
+    <h2>Extracted Entities:</h2>
+    <div id="results"></div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const user_input = document.getElementById('user_input').value;
+
+            const response = await fetch('/extract_entities', {
+                method: 'POST',
+                body: new URLSearchParams({ 'user_input': user_input }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+
+            const data = await response.json();
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = JSON.stringify(data.entities, null, 2);
+        });
+    </script>
+</body>
+</html>
