@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Named Entity Recognition</h1>
-    <form method="POST" action="/extract_entities">
+    <form id="ner-form">
         <label for="user_input">Enter Text:</label>
         <textarea id="user_input" name="user_input" rows="4" cols="50"></textarea>
         <br>
@@ -16,7 +16,7 @@
     <div id="results"></div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async function (e) {
+        document.querySelector('#ner-form').addEventListener('submit', async function (e) {
             e.preventDefault();
             const user_input = document.getElementById('user_input').value;
 
@@ -31,7 +31,7 @@
             const data = await response.json();
 
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = JSON.stringify(data.entities, null, 2);
+            resultsDiv.innerHTML = '<pre>' + JSON.stringify(data.entities, null, 2) + '</pre>';
         });
     </script>
 </body>
